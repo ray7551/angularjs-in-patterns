@@ -6,10 +6,10 @@
 
 * [翻译](#翻译)
 * [摘要](#摘要)
-* [Introduction](#introduction)
-* [AngularJS overview](#angularjs-overview)
-  * [Partials](#partials)
-  * [Controllers](#controllers)
+* [引言](#引言)
+* [AngularJS 概览](#AngularJS-概览)
+  * [局部模板（Partials）](#局部模板（Partials）)
+  * [控制器](#控制器)
   * [Scope](#scope)
   * [Directives](#directives)
   * [Filters](#filters)
@@ -54,59 +54,57 @@
 本文不是想让读者熟悉设计模式或架构模式；它给出了对面向对象，设计模式和架构模式的基本理解。
 本文的目的是描述几种不同的软件设计和架构模式如何应用于 AngularJS 或 AngularJS 单页面应用中。
 
-## Introduction
+## 引言
 
-The document begins with brief overview of the AngularJS framework. The overview explains the main AngularJS components - directives, filters, controllers, services, scope. The second section lists and describes different design and architectural patterns, which are implemented inside the framework. The patterns are grouped by the AngularJS component they are used in. If some patterns are used inside multiple components it will be explicitly mentioned.
+本文以对 AngularJS 的简要概览开始。概览这一章节解释了 AngularJS 的主要组成部分————指令（drectives），过滤器（filters），控制器（controllers），服务（services），作用域（scope）。第二章节按照上述几个组成部分分组，列出并描述了不同设计和架构模式在框架中各部分的应用。如果有部分模式在不同的部分被用到，将会有明显提及。
 
-The last section contains a few architectural patterns, which are commonly used inside most of the single-page applications built with AngularJS.
+最后一个章节包含了一些经常在 AngularJS 单页面应用中用到的架构模式。
 
-## AngularJS overview
+## AngularJS 概览
 
-AngularJS is a JavaScript framework developed by Google. It intends to provide a solid base for the development of CRUD Single-Page Applications (SPA).
-SPA is a web application, which once loaded, does not require full page reload when the user performs any actions with it. This means that all application resources (data, templates, scripts, styles) should be loaded with the initial request or better - the information and resources should be loaded on demand.
-Since most of the CRUD applications has common characteristics and requirements, AngularJS intends to provide the optimal set of them out-of-the-box. A few important features of AngularJS are:
+AngularJS 是一个Google开发的 JavaScript 框架。它的产生是为了给开发 CRUD 类单页面应用（SPA）一个坚实的基础。
+SPA是一个web应用，一旦加载完成，用户发起操作时，就不需要重新加载整个页面。这意味着所有应用需要的资源都（数据，模板，脚本，样式）应该在初次请求时加载，或者以更好的方式加载————信息和资源都只在需要时加载。
+既然大部分 CRUD 类应用都有相同的特点和要求，AngularJS 想要做的事便是提供一套理想化且易用的特性。AngularJS 中结果重要的特性如下：
 
-- two-way data binding
-- dependency injection
-- separation of concerns
-- testability
-- abstraction
+- 双向数据绑定
+- 依赖注入
+- 可测试性
+- 抽象化
 
-The separation of concerns is achieved by dividing each AngularJS application into separate components, such as:
+将 AngularJS 应用分割成相互分离的部分来达到关注点分离的目的，比如：
 
-- partials
-- controllers
-- directives
-- services
-- filters
+- 局部模板（Partials）
+- 控制器
+- 指令
+- 服务
+- 过滤器
 
-These components can be grouped inside different modules, which helps to achieve a higher level of abstraction and handle complexity. Each of the components encapsulates a specific piece of the application's logic.
+这些组成部分可以被归类到不同的模块，这有助于我们做出更高层的抽象，处理更复杂的情况。每一个部分都封装了应用逻辑的特定部分。
 
-### Partials
+### 局部模板（Partials）
 
-The partials are HTML strings. They may contain AngularJS expressions inside the elements or their attributes. One of the distinctions between AngularJS and the others frameworks is the fact that AngularJS' templates are not in an intermediate format, which needs to be turned into HTML (which is the case with mustache.js and handlebars, for example).
+局部模板就是一些HTML字符串。它里面可能有带 AngularJS 表达式的元素或属性。AngularJS 与其它框架的区别就是 AngularJS 的模板不是一种需要转换成HTML的中间格式（例如mustache.js）。
 
-Initially each SPA loads `index.html` file. In the case of AngularJS this file contains a set of standard and custom HTML attributes, elements and comments, which configure and bootstrap the application. Each sub-sequenced user action requires only load of another partial or change of the state of the application, for example through the data binding provided by the framework.
+一般来说，每个SPA会在初始阶段载入 `index.html` 文件。就 AngularJS 来说，这个文件会包括一系列标准的和自定义的HTML属性，标签和注释。它们可以配置并引导应用启动。所有后续的用户操作都只需要载入局部模板或改变应用的状态，例如通过框架提供的数据绑定。
 
-**Sample partial**
+**示例局部模板**
 
 ```HTML
 <html ng-app>
- <!-- Body tag augmented with ngController directive  -->
+ <!-- 用 ngController 指令增强 body 标签 -->
  <body ng-controller="MyController">
    <input ng-model="foo" value="bar">
-   <!-- Button tag with ng-click directive, and
-          string expression 'buttonText'
-          wrapped in "{{ }}" markup -->
+   <!-- 带有 ng-click 指令的 button 标签, 
+         和用 "{{ }}" 标记包围的字符串表达式'buttonText' -->
    <button ng-click="changeFoo()">{{buttonText}}</button>
    <script src="angular.js"></script>
  </body>
 </html>
 ```
 
-With AngularJS expressions partials define what kind of actions should be performed for handling different user interactions. In the example above the value of the attribute `ng-click` states that the method `changeFoo` of the current *scope* will be invoked.
+用 AngularJS 表达式局部地定义不同的交互引发将会调用什么方法处理。在上面的实例中，属性 `ng-click` 的值表示当前*作用域*的方法 `changeFoo` 将被调用。
 
-### Controllers
+### 控制器
 
 The AngularJS controllers are JavaScript functions, which help handling the user interactions with the web application (for example mouse events, keyboard events, etc.), by attaching methods to the *scope*. All required external, for the controllers, components are provided through the Dependency Injection mechanism of AngularJS. The controllers are also responsible for providing the *model* to the partials by attaching data to the *scope*. We can think of this data as *view model*.
 
