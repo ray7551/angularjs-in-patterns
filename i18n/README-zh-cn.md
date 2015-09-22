@@ -106,7 +106,9 @@ SPA是一个web应用，一旦加载完成，用户发起操作时，就不需�
 
 ### 控制器
 
-The AngularJS controllers are JavaScript functions, which help handling the user interactions with the web application (for example mouse events, keyboard events, etc.), by attaching methods to the *scope*. All required external, for the controllers, components are provided through the Dependency Injection mechanism of AngularJS. The controllers are also responsible for providing the *model* to the partials by attaching data to the *scope*. We can think of this data as *view model*.
+AngularJS 控制器是 JavaScript 函数，它通过在“scope”上附加处理方法的方式，来处理用户与 web 应用间的交互（比如鼠标事件，键盘事件等等）。
+所有控制器，组件通过 AngularJS 的依赖注入机制提供。控制器的另一个职责，是通过在“scope”上附加数据的方式，提供 *model* 给局部模板。
+我们可以把这些数据看作 *view model*。
 
 ```JavaScript
 function MyController($scope) {
@@ -120,20 +122,21 @@ function MyController($scope) {
 }
 ```
 
-For example, if we wire the sample controller above with the partial provided in the previous section the user will be able to interact with the application in few different ways.
+举个例子，如果我们把上面的示例控制器和先前给出的局部模板放到一块，用户可能通过以下几种方式交互：
 
-1. Change the value of `foo` by typing in the input box. This will immediately reflect the value of `foo` because of the two-way data binding.
-2. Change the value of `foo` by clicking the button, which will be labeled `Click me to change foo!`.
+1. 通过在输入框内输入字符，改变 `foo` 的值。由于双向数据绑定，将会立即显示 `foo` 的新值。
+2. 通过点击 `Click me to change foo!` 按钮改变 `foo` 的值。
 
-All the custom elements, attributes, comments or classes could be recognized as AngularJS *directives* if they are previously defined as ones.
+所有自定义元素、属性、注释或 class 都会被当做 AngularJS *指令*（directives），前提是指令已经定义。
 
 ### Scope
 
-In AngularJS scope is a JavaScript object, which is exposed to the partials. The scope could contain different properties - primitives, objects or methods. All methods attached to the scope could be invoked by evaluation of AngularJS expression inside the partials associated with the given scope or direct call of the method by any component, which keeps reference to the scope. By using appropriate *directives*, the data attached to the scope could be binded to the view in such a way that each change in the partial will reflect a scope property and each change of a scope property will reflect the partial.
+在 AngularJS 中，scope 是一个暴露给局部模板的 JavaScript 对象。Scope 可以包含不同的属性——原始类型，对象或方法。所有附加在 scope 上的方法可以在局部模板中的 AngularJS 表达式被解析的时候被调用，也可以直接在任何组件中调用它，只要它与这个 scope 相关联。
+通过合理使用*指令*，附加在 scope 上的数据会被绑定到视图，就是说，每个局部视图上的改变会影响到 scope 的属性，每次 scope 的属性改变，局部视图上相应的地方也会跟着改变。
 
-Another important characteristics of the scopes of any AngularJS application is that they are connected into a prototypical chain (except scopes, which are explicitly stated as *isolated*). This way any child scope will be able to invoke methods of its parents since they are properties of its direct or indirect prototype.
+Scope 另一个重要的特性是它们都连接到了一个原型链（除了哪些被声明为 *isolated*（独立作用域）的 scope）。这样，任何一个子 scope 都可以调用它的父级 scope 上的方法，因为这些方法都是子级 scope 原型上的属性（直接或间接的）。
 
-Scope inheritance is illustrated in the following example:
+Scope 继承可以用下面的例子描述：
 
 ```HTML
 <div ng-controller="BaseCtrl">
@@ -158,7 +161,7 @@ function ChildCtrl($scope) {
 }
 ```
 
-With `div#child` is associated `ChildCtrl` but since the scope injected inside `ChildCtrl` inherits prototypically from its parent scope (i.e. the one injected inside `BaseCtrl`) the method `foo` is accessible by `button#parent-method`.
+`div#child` 与 `ChildCtrl` 相关联，但因为注入到 `ChildCtrl` 内部的 scope 原型式地从它的父级 scope 继承了 `foo` 方法（即注入到 `BaseCtrl` 里），`foo` 方法可以在 `div#child` 内部的 `button#parent-method` 里使用。
 
 ### Directives
 
