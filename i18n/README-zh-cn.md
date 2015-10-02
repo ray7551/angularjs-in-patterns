@@ -11,7 +11,7 @@
   * [局部模板（Partials）](#局部模板（Partials）)
   * [控制器](#控制器)
   * [Scope](#scope)
-  * [Directives](#directives)
+  * [指令](#指令)
   * [Filters](#filters)
   * [Services](#services)
 * [AngularJS Patterns](#angularjs-patterns)
@@ -163,19 +163,19 @@ function ChildCtrl($scope) {
 
 `div#child` 与 `ChildCtrl` 相关联，但因为注入到 `ChildCtrl` 内部的 scope 原型式地从它的父级 scope 继承了 `foo` 方法（即注入到 `BaseCtrl` 里），`foo` 方法可以在 `div#child` 内部的 `button#parent-method` 里使用。
 
-### Directives
+### 指令
 
-In AngularJS the directives are the place where all DOM manipulations should be placed. As a rule of thumb, when you have DOM manipulations in your controller you should create a new directive or consider refactoring of already existing one, which could handle the required DOM manipulations.
-Each directive has a name and logic associated with it. In the simplest case the directive contains only name and definition of *postLink* function, which encapsulates all the logic required for the directive. In more complex cases the directive could contain a lot of properties such as:
+在 AngularJS 中，所有的 DOM 操作用过放置在指令（directive）中。根据一般经验，当你的控制器中有 DOM 操作时，你应该创建一个新的指令或者考虑重构一个已有的，可处理所需 DOM 操作的指令。
+每个指令都有一个名字和与它相关的逻辑。在最简单的情况下，一个指令只包含名字和 *postLink* 方法的定义，这个方法封装了这个指令的所有逻辑。在比较复杂的情况下，一个指令还包含其它很多属性，比如：
 
-- template
-- compile function
-- link function
-- etc...
+- template（模板）
+- compile function（编译方法）
+- link function（链接方法）
+- ...
 
-By citing the name of the directives they can be used inside the declarative partials.
+通过引用指令名，可以在局部模板中使用指令。
 
-Example:
+示例:
 
 ```JavaScript
 myModule.directive('alertButton', function () {
@@ -200,9 +200,9 @@ myModule.directive('alertButton', function () {
 <alert-button content="42">Click me</alert-button>
 ```
 
-In the example above the tag `<alert-button></alert-button>` will be replaced button element. When the user clicks on the button the string `42` will be alerted.
+上面的例子中，`<alert-button></alert-button>` 标签将会被替换成 button 元素。当用户点击这个 button 时，字符串 `42` 将会被 alert 出来。
 
-Since the intent of this paper is not to explain the complete API of AngularJS, we will stop with the directives here.
+因为本文并不是要完整叙述 AngularJS 的 API，我们对指令的叙述到此为止。
 
 ### Filters
 
@@ -267,9 +267,9 @@ In the last chapter we are going to take a look at some architectural patterns, 
 
 #### Singleton
 
->The singleton pattern is a design pattern that restricts the instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system. The concept is sometimes generalized to systems that operate more efficiently when only one object exists, or that restrict the instantiation to a certain number of objects.
+> 单例模式是一个用来限制类到对象的初始化过程的设计模式。当你只需要一个唯一的对象来协调系统操作时，这个模式非常有用。它的核心理念是，当系统只有一个或者限定数目的对象实例存在时，系统会运行得更高效。
 
-In the UML diagram bellow is illustrated the singleton design pattern.
+下面的 UML 图描述了单例模式。
 
 ![Singleton](https://rawgit.com/mgechev/angularjs-in-patterns/master/images/singleton.svg "Fig. 1")
 
